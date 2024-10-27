@@ -7,6 +7,7 @@ using ServiceContracts.Enums;
 
 namespace ContactManager.Controllers;
 
+[Route("[controller]")]
 public class PersonsController : Controller
 {
     private readonly IPersonsService _personsService;
@@ -19,7 +20,7 @@ public class PersonsController : Controller
     }
 
     [Route("/")]
-    [Route("/persons/index")]
+    [Route("[action]")]
     public IActionResult Index(string searchBy, string searchString,
         SortOrderOptions sortOrder = SortOrderOptions.ASC,
         string sortBy = nameof(PersonResponse.Name))
@@ -60,7 +61,7 @@ public class PersonsController : Controller
     }
 
     [HttpPost]
-    [Route("persons/create")]
+    [Route("[action]")]
     public IActionResult Create(PersonAddRequest personAddRequest)
     {
         if (!ModelState.IsValid)
