@@ -1,0 +1,27 @@
+﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=2b9d5a56_002D1ee0_002D47b4_002D9cf7_002D5f47ac3642d8/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="Test1" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;Or&gt;
+    &lt;And&gt;
+      &lt;TestAncestor&gt;
+        &lt;TestId&gt;xUnit::0659F18B-68C9-4285-B2DD-98FBB0A7F2A1::net8.0::Tests.UnitTest1.Test1&lt;/TestId&gt;
+        &lt;TestId&gt;xUnit::0659F18B-68C9-4285-B2DD-98FBB0A7F2A1::net8.0::Tests.CountriesServiceTest.AddCountry_NullCountry&lt;/TestId&gt;
+        &lt;TestId&gt;xUnit::0659F18B-68C9-4285-B2DD-98FBB0A7F2A1::net8.0::Tests.CountriesServiceTest.AddCountry_CountryNameIsNull&lt;/TestId&gt;
+        &lt;TestId&gt;xUnit::0659F18B-68C9-4285-B2DD-98FBB0A7F2A1::net8.0::Tests.CountriesServiceTest.AddCountry_CountryNameIsDuplicate&lt;/TestId&gt;
+        &lt;TestId&gt;xUnit::0659F18B-68C9-4285-B2DD-98FBB0A7F2A1::net8.0::Tests.CountriesServiceTest.AddCountry_ProperCountryDetails&lt;/TestId&gt;
+        &lt;TestId&gt;xUnit::0659F18B-68C9-4285-B2DD-98FBB0A7F2A1::net8.0::Tests.CountriesServiceTest.GetAllCountries_EmptyList&lt;/TestId&gt;
+        &lt;TestId&gt;xUnit::0659F18B-68C9-4285-B2DD-98FBB0A7F2A1::net8.0::Tests.CountriesServiceTest.GetAllCountries_AddFewCountries&lt;/TestId&gt;
+        &lt;TestId&gt;xUnit::0659F18B-68C9-4285-B2DD-98FBB0A7F2A1::net8.0::Tests.CountriesServiceTest.GetCountryByCountryId_NullCountryId&lt;/TestId&gt;
+        &lt;TestId&gt;xUnit::0659F18B-68C9-4285-B2DD-98FBB0A7F2A1::net8.0::Tests.CountriesServiceTest.GetCountryByCountryId_ValidCountryId&lt;/TestId&gt;
+      &lt;/TestAncestor&gt;
+      &lt;Not&gt;
+        &lt;TestAncestor&gt;
+          &lt;TestId&gt;xUnit::0659F18B-68C9-4285-B2DD-98FBB0A7F2A1::net8.0::Tests.UnitTest1&lt;/TestId&gt;
+        &lt;/TestAncestor&gt;
+      &lt;/Not&gt;
+    &lt;/And&gt;
+    &lt;TestAncestor&gt;
+      &lt;TestId&gt;xUnit::0659F18B-68C9-4285-B2DD-98FBB0A7F2A1::net8.0::Tests.PersonServiceTest.AddPerson_NullPerson&lt;/TestId&gt;
+      &lt;TestId&gt;xUnit::0659F18B-68C9-4285-B2DD-98FBB0A7F2A1::net8.0::Tests.PersonServiceTest&lt;/TestId&gt;
+    &lt;/TestAncestor&gt;
+  &lt;/Or&gt;
+&lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>
