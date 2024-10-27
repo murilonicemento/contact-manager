@@ -4,7 +4,12 @@
         <TargetFramework>net8.0</TargetFramework>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
-        <RootNamespace>CrudDemo</RootNamespace>
+        <RootNamespace>ContactManager</RootNamespace>
     </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\ServiceContracts\ServiceContracts.csproj" />
+      <ProjectReference Include="..\Services\Services.csproj" />
+    </ItemGroup>
 
 </Project>
