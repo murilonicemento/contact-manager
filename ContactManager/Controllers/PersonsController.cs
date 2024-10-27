@@ -41,6 +41,9 @@ public class PersonsController : Controller
         };
         List<PersonResponse> persons = _personsService.GetFilteredPerson(searchBy, searchString);
 
+        ViewBag.CurrentSearchBy = searchBy;
+        ViewBag.CurrentSearchString = searchString;
+
         return View(persons);
     }
 }

@@ -119,32 +119,32 @@ public class PersonsService : IPersonsService
 
         switch (searchBy)
         {
-            case nameof(Person.Name):
+            case nameof(PersonResponse.Name):
                 matchingPersons = allPersons.Where(person =>
                     string.IsNullOrEmpty(person.Name) ||
                     person.Name.Contains(searchString, StringComparison.OrdinalIgnoreCase)).ToList();
                 break;
-            case nameof(Person.Email):
+            case nameof(PersonResponse.Email):
                 matchingPersons = allPersons.Where(person =>
                     string.IsNullOrEmpty(person.Email) ||
                     person.Email.Contains(searchString, StringComparison.OrdinalIgnoreCase)).ToList();
                 break;
-            case nameof(Person.DateOfBirth):
+            case nameof(PersonResponse.DateOfBirth):
                 matchingPersons = allPersons.Where(person =>
                     person.DateOfBirth == null || person.DateOfBirth.Value.ToString("dd MMMM yyyy")
                         .Contains(searchString, StringComparison.OrdinalIgnoreCase)).ToList();
                 break;
-            case nameof(Person.Gender):
+            case nameof(PersonResponse.Gender):
                 matchingPersons = allPersons.Where(person =>
                     string.IsNullOrEmpty(person.Gender)
                     || person.Gender.Contains(searchString, StringComparison.OrdinalIgnoreCase)).ToList();
                 break;
-            case nameof(Person.CountryId):
+            case nameof(PersonResponse.CountryId):
                 matchingPersons = allPersons.Where(person =>
                     string.IsNullOrEmpty(person.Country)
                     || person.Country.Contains(searchString, StringComparison.OrdinalIgnoreCase)).ToList();
                 break;
-            case nameof(Person.Address):
+            case nameof(PersonResponse.Address):
                 matchingPersons = allPersons.Where(person =>
                     string.IsNullOrEmpty(person.Address)
                     || person.Address.Contains(searchString, StringComparison.OrdinalIgnoreCase)).ToList();
