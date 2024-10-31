@@ -78,7 +78,7 @@ public class PersonsController : Controller
             return View();
         }
 
-        PersonResponse personResponse = _personsService.AddPerson(personAddRequest);
+        _personsService.AddPerson(personAddRequest);
 
         return RedirectToAction("Index", "Persons");
     }
