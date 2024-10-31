@@ -18,9 +18,16 @@ public class PersonAddRequest
     public string? Email { get; set; }
 
     [DataType(DataType.Date)] public DateTime? DateOfBirth { get; set; }
+
+    [Required(ErrorMessage = "Gender can't be blank")]
     public GenderOptions? Gender { get; set; }
+
+    [Required(ErrorMessage = "Please select a country")]
     public Guid? CountryId { get; set; }
+
+    [Required(ErrorMessage = "Address can't be blank")]
     public string? Address { get; set; }
+
     public bool? ReceiveNewsLetters { get; set; }
 
     /// <summary>
