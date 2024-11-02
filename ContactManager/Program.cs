@@ -1,6 +1,7 @@
 using Entities;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ServiceContracts;
@@ -11,7 +12,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddSingleton<ICountriesService, CountriesService>();
 builder.Services.AddSingleton<IPersonsService, PersonsService>();
-builder.Services.AddDbContext<PersonsDbContext>(options => { options.UseSqlServer(); });
+builder.Services.AddDbContext<PersonsDbContext>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection") ?? string.Empty);
+});
 
 var app = builder.Build();
 
