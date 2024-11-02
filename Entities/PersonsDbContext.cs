@@ -10,6 +10,10 @@ public class PersonsDbContext : DbContext
     public DbSet<Country> Countries { get; set; }
     public DbSet<Person> Persons { get; set; }
 
+    public PersonsDbContext(DbContextOptions options) : base(options)
+    {
+    }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
@@ -31,7 +35,7 @@ public class PersonsDbContext : DbContext
 
         foreach (Person person in persons)
         {
-            modelBuilder.Entity<Country>().HasData(person);
+            modelBuilder.Entity<Person>().HasData(person);
         }
     }
 }
