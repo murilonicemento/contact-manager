@@ -9,9 +9,9 @@ public class CountriesServiceTest
 {
     private readonly ICountriesService _countriesService;
 
-    public CountriesServiceTest()
+    public CountriesServiceTest(ICountriesService countriesService)
     {
-        _countriesService = new CountriesService(false);
+        _countriesService = countriesService;
     }
 
     #region AddCountry
