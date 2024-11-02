@@ -8,75 +8,13 @@ namespace Services;
 
 public class PersonsService : IPersonsService
 {
-    private readonly List<Person> _persons;
+    private readonly PersonsDbContext _db;
     private readonly ICountriesService _countriesService;
 
-    public PersonsService(bool initialize = true)
+    public PersonsService(PersonsDbContext personsDbContext, ICountriesService countriesService)
     {
-        _persons = new List<Person>();
-        _countriesService = new CountriesService();
-
-        if (initialize)
-        {
-            _persons.AddRange(new List<Person>()
-            {
-                new Person()
-                {
-                    Id = Guid.NewGuid(),
-                    Name = "Yeti",
-                    Email = "yeti@gmail.com",
-                    Address = "Xique Xique - BA",
-                    Gender = GenderOptions.Male.ToString(),
-                    CountryId = Guid.Parse("05C1175A-432E-4AD2-B76A-BE80C8F45A58"),
-                    DateOfBirth = DateTime.Parse("2002-05-28"),
-                    ReceiveNewsLetters = true,
-                },
-                new Person()
-                {
-                    Id = Guid.NewGuid(),
-                    Name = "Ronaldo",
-                    Email = "ronaldo@gmail.com",
-                    Address = "Jussiape",
-                    Gender = GenderOptions.Male.ToString(),
-                    CountryId = Guid.Parse("76A296FB-F21F-448E-A75D-D66E50FE6777"),
-                    DateOfBirth = DateTime.Parse("2002-05-28"),
-                    ReceiveNewsLetters = true,
-                },
-                new Person()
-                {
-                    Id = Guid.NewGuid(),
-                    Name = "Cleiton",
-                    Email = "cleitin@gmail.com",
-                    Address = "Shibuya",
-                    Gender = GenderOptions.Male.ToString(),
-                    CountryId = Guid.Parse("82DE0B5E-50F6-4F3D-B43F-16AD763914C1"),
-                    DateOfBirth = DateTime.Parse("2002-05-28"),
-                    ReceiveNewsLetters = true,
-                },
-                new Person()
-                {
-                    Id = Guid.NewGuid(),
-                    Name = "Maria",
-                    Email = "maria@gmail.com",
-                    Address = "São Paulo",
-                    Gender = GenderOptions.Female.ToString(),
-                    CountryId = Guid.Parse("2B24ADC9-F407-4860-96F9-02C992FF161F"),
-                    DateOfBirth = DateTime.Parse("2002-05-28"),
-                    ReceiveNewsLetters = true,
-                },
-                new Person()
-                {
-                    Id = Guid.NewGuid(),
-                    Name = "Cláudio",
-                    Email = "craudio@gmail.com",
-                    Address = "Belém",
-                    Gender = GenderOptions.Male.ToString(),
-                    CountryId = Guid.Parse("FF7D0894-44C9-41DF-93AA-4DE74C38BEAA"),
-                    DateOfBirth = DateTime.Parse("2002-05-28"),
-                    ReceiveNewsLetters = true,
-                },
-            });
-        }
+        _db = personsDbContext;
+        _countriesService = countriesService;
     }
 
     private PersonResponse ConvertToPersonResponse(Person person)
@@ -95,19 +33,20 @@ public class PersonsService : IPersonsService
         Person person = personAddRequest.ToPerson();
         person.Id = Guid.NewGuid();
 
-        _persons.Add(person);
+        _db.Persons.Add(person);
+        _db.SaveChanges();
 
         return ConvertToPersonResponse(person);
     }
 
     public List<PersonResponse> GetAllPersons()
     {
-        return _persons.Select(person => person.ToPersonResponse()).ToList();
+        return _db.Persons.ToList().Select(person => person.ToPersonResponse()).ToList();
     }
 
     public PersonResponse? GetPersonByPersonId(Guid? id)
     {
-        return _persons.FirstOrDefault(person => person.Id == id)?.ToPersonResponse();
+        return _db.Persons.FirstOrDefault(person => person.Id == id)?.ToPersonResponse();
     }
 
     public List<PersonResponse> GetFilteredPerson(string searchBy, string? searchString)
@@ -207,7 +146,7 @@ public class PersonsService : IPersonsService
         ArgumentNullException.ThrowIfNull(personUpdateRequest);
         ValidationHelper.ModelValidation(personUpdateRequest);
 
-        Person? person = _persons.FirstOrDefault(person => person.Id == personUpdateRequest.Id);
+        Person? person = _db.Persons.FirstOrDefault(person => person.Id == personUpdateRequest.Id);
 
         if (person is null)
         {
@@ -222,6 +161,8 @@ public class PersonsService : IPersonsService
         person.Address = personUpdateRequest.Address;
         person.ReceiveNewsLetters = personUpdateRequest.ReceiveNewsLetters;
 
+        _db.SaveChanges();
+
         return person.ToPersonResponse();
     }
 
@@ -229,11 +170,12 @@ public class PersonsService : IPersonsService
     {
         ArgumentNullException.ThrowIfNull(id);
 
-        Person? person = _persons.FirstOrDefault(person => person.Id == id);
+        Person? person = _db.Persons.FirstOrDefault(person => person.Id == id);
 
         if (person == null) return false;
 
-        _persons.RemoveAll(temp => temp.Id == id);
+        _db.Persons.Remove(_db.Persons.First(temp => temp.Id == person.Id));
+        _db.SaveChanges();
 
         return true;
     }

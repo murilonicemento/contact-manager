@@ -6,23 +6,11 @@ namespace Services;
 
 public class CountriesService : ICountriesService
 {
-    private readonly List<Country> _countries;
+    private readonly PersonsDbContext _db;
 
-    public CountriesService(bool initialize = true)
+    public CountriesService(PersonsDbContext personsDbContext)
     {
-        _countries = new List<Country>();
-
-        if (initialize)
-        {
-            _countries.AddRange(new List<Country>()
-            {
-                new Country() { Id = Guid.Parse("05C1175A-432E-4AD2-B76A-BE80C8F45A58"), Name = "Japan" },
-                new Country() { Id = Guid.Parse("76A296FB-F21F-448E-A75D-D66E50FE6777"), Name = "Brazil" },
-                new Country() { Id = Guid.Parse("82DE0B5E-50F6-4F3D-B43F-16AD763914C1"), Name = "USA" },
-                new Country() { Id = Guid.Parse("2B24ADC9-F407-4860-96F9-02C992FF161F"), Name = "Argentina" },
-                new Country() { Id = Guid.Parse("FF7D0894-44C9-41DF-93AA-4DE74C38BEAA"), Name = "Chile" }
-            });
-        }
+        _db = personsDbContext;
     }
 
     public CountryResponse AddCountry(CountryAddRequest? countryAddRequest)
@@ -37,7 +25,7 @@ public class CountriesService : ICountriesService
             throw new ArgumentException(nameof(countryAddRequest.Name));
         }
 
-        if (_countries.Where(country => country.Name == countryAddRequest.Name).Count() > 0)
+        if (_db.Countries.Count(country => country.Name == countryAddRequest.Name) > 0)
         {
             throw new ArgumentException("Given country name already exists.");
         }
@@ -46,21 +34,22 @@ public class CountriesService : ICountriesService
 
         country.Id = Guid.NewGuid();
 
-        _countries.Add(country);
+        _db.Countries.Add(country);
+        _db.SaveChanges();
 
         return country.ToCountryResponse();
     }
 
     public List<CountryResponse> GetAllCountries()
     {
-        return _countries.Select(country => country.ToCountryResponse()).ToList();
+        return _db.Countries.Select(country => country.ToCountryResponse()).ToList();
     }
 
     public CountryResponse? GetCountryByCountryId(Guid? countryId)
     {
         if (countryId == null) return null;
 
-        Country? countryFromList = _countries.FirstOrDefault(country => country.Id == countryId);
+        Country? countryFromList = _db.Countries.FirstOrDefault(country => country.Id == countryId);
 
         if (countryFromList == null) return null;
 
