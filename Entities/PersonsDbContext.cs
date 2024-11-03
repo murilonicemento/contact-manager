@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using System.Runtime.Serialization;
 using System.Text.Json;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 
 namespace Entities;
@@ -42,5 +43,24 @@ public class PersonsDbContext : DbContext
     public List<Person> sp_GetAllPersons()
     {
         return Persons.FromSqlRaw("EXECUTE [dbo].[GetAllPersons]").ToList();
+    }
+
+    public int sp_InsertPerson(Person person)
+    {
+        SqlParameter[] parameters =
+        [
+            new("@Id", person.Id),
+            new("@Name", person.Name),
+            new("@Email", person.Email),
+            new("@DateOfBirth", person.DateOfBirth),
+            new("@Gender", person.Gender),
+            new("@CountryId", person.CountryId),
+            new("@Address", person.Address),
+            new("@ReceiveNewsLetters", person.ReceiveNewsLetters)
+        ];
+
+        return Database.ExecuteSqlRaw(
+            "EXECUTE [dbo].[InsertPerson] @Id, @Name, @Email, @DateOfBirth, @Gender, @CountryId, @Address, @ReceiveNewsLetters",
+            parameters);
     }
 }
