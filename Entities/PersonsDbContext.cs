@@ -38,6 +38,16 @@ public class PersonsDbContext : DbContext
         {
             modelBuilder.Entity<Person>().HasData(person);
         }
+
+        // Fluent API
+        modelBuilder.Entity<Person>()
+            .Property(temp => temp.TIN)
+            .HasColumnName("TaxIdentificationNumber")
+            .HasColumnType("varchar(8)")
+            .HasDefaultValue("ABCD1234");
+
+        // modelBuilder.Entity<Person>().HasIndex(temp => temp.Id).IsUnique();
+        modelBuilder.Entity<Person>().HasCheckConstraint("CHK_TIN", "len([TaxIdentificationNumber]) = 8"); // s_Ctring length deve ser 8
     }
 
     public List<Person> sp_GetAllPersons()
