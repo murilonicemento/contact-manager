@@ -42,9 +42,9 @@ public class PersonsService : IPersonsService
 
     public List<PersonResponse> GetAllPersons()
     {
-        // return _db.Persons.ToList().Select(person => person.ToPersonResponse()).ToList();
+        return _db.Persons.ToList().Select(person => person.ToPersonResponse()).ToList();
 
-        return _db.sp_GetAllPersons().Select(person => person.ToPersonResponse()).ToList();
+        // return _db.sp_GetAllPersons().Select(person => person.ToPersonResponse()).ToList();
     }
 
     public PersonResponse? GetPersonByPersonId(Guid? id)
