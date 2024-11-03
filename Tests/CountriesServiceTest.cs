@@ -1,4 +1,5 @@
-using NuGet.Frameworks;
+using Entities;
+using Microsoft.EntityFrameworkCore;
 using ServiceContracts;
 using ServiceContracts.DTO;
 using Services;
@@ -9,9 +10,9 @@ public class CountriesServiceTest
 {
     private readonly ICountriesService _countriesService;
 
-    public CountriesServiceTest(ICountriesService countriesService)
+    public CountriesServiceTest()
     {
-        _countriesService = countriesService;
+        _countriesService = new CountriesService(new PersonsDbContext(new DbContextOptionsBuilder<PersonsDbContext>().Options));
     }
 
     #region AddCountry
