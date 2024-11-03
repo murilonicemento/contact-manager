@@ -33,8 +33,8 @@ public class PersonsService : IPersonsService
         Person person = personAddRequest.ToPerson();
         person.Id = Guid.NewGuid();
 
-        // _db.Persons.Add(person);
-        _db.sp_InsertPerson(person);
+        _db.Persons.Add(person);
+        // _db.sp_InsertPerson(person);
         _db.SaveChanges();
 
         return ConvertToPersonResponse(person);
