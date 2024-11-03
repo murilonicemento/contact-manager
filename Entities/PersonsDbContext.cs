@@ -38,4 +38,9 @@ public class PersonsDbContext : DbContext
             modelBuilder.Entity<Person>().HasData(person);
         }
     }
+
+    public List<Person> sp_GetAllPersons()
+    {
+        return Persons.FromSqlRaw("EXECUTE [dbo].[GetAllPersons]").ToList();
+    }
 }
