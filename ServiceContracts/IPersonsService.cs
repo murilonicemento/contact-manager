@@ -13,20 +13,20 @@ public interface IPersonsService
     /// </summary>
     /// <param name="personAddRequest">Person to add</param>
     /// <returns>Returns the same person details, along with newly generated person id</returns>
-    PersonResponse AddPerson(PersonAddRequest? personAddRequest);
+    Task<PersonResponse> AddPerson(PersonAddRequest? personAddRequest);
 
     /// <summary>
     /// Returns all persons
     /// </summary>
     /// <returns>return a list of PersonResponse object</returns>
-    List<PersonResponse> GetAllPersons();
+    Task<List<PersonResponse>> GetAllPersons();
 
     /// <summary>
     /// Returns the person object based on the given person id
     /// </summary>
     /// <param name="id">Person id to search</param>
     /// <returns>Matching person object</returns>
-    PersonResponse? GetPersonByPersonId(Guid? id);
+    Task<PersonResponse?> GetPersonByPersonId(Guid? id);
 
     /// <summary>
     /// Return all person objects that matches with the given search field and search string
@@ -34,7 +34,7 @@ public interface IPersonsService
     /// <param name="searchBy">Search field to search</param>
     /// <param name="searchString">Search string to search</param>
     /// <returns>Returns all matching persons based on the given search field and search string</returns>
-    List<PersonResponse> GetFilteredPerson(string searchBy, string? searchString);
+    Task<List<PersonResponse>> GetFilteredPerson(string searchBy, string? searchString);
 
     /// <summary>
     /// Returns sorted list of persons
@@ -43,19 +43,19 @@ public interface IPersonsService
     /// <param name="sortedBy">Name of the property (key), based on which the persons should be sorted</param>
     /// <param name="sortOrder">ASC or DESC</param>
     /// <returns>Returns sorted persons as PersonResponse list</returns>
-    List<PersonResponse> GetSortedPersons(List<PersonResponse> allPersons, string sortedBy, SortOrderOptions sortOrder);
+    Task<List<PersonResponse>> GetSortedPersons(List<PersonResponse> allPersons, string sortedBy, SortOrderOptions sortOrder);
 
     /// <summary>
     /// Updates the specified person details based on the given person id
     /// </summary>
     /// <param name="personUpdateRequest"> person details to update</param>
     /// <returns>Returns a PersonResponse object</returns>
-    PersonResponse UpdatePerson(PersonUpdateRequest? personUpdateRequest);
+    Task<PersonResponse> UpdatePerson(PersonUpdateRequest? personUpdateRequest);
 
     /// <summary>
     /// Deletes a person base on the given id
     /// </summary>
     /// <param name="id">person id to delete</param>
     /// <returns>return true, if the deletion is successful, otherwise false</returns>
-    bool DeletePerson(Guid? id);
+    Task<bool> DeletePerson(Guid? id);
 }
