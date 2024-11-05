@@ -48,6 +48,12 @@ public class PersonsDbContext : DbContext
 
         // modelBuilder.Entity<Person>().HasIndex(temp => temp.Id).IsUnique();
         modelBuilder.Entity<Person>().HasCheckConstraint("CHK_TIN", "len([TaxIdentificationNumber]) = 8"); // s_Ctring length deve ser 8
+        
+        // Table Relations
+        // modelBuilder.Entity<Person>(entity =>
+        // {
+        //     entity.HasOne<Country>(temp => temp.Country).WithMany(p => p.Person).HasForeignKey(p => p.CountryId);
+        // });
     }
 
     public List<Person> sp_GetAllPersons()
