@@ -24,6 +24,8 @@ if (builder.Environment.IsDevelopment())
     app.UseDeveloperExceptionPage();
 }
 
+Rotativa.AspNetCore.RotativaConfiguration.Setup("wwwroot", "Rotativa");
+
 app.UseStaticFiles();
 app.UseRouting();
 app.MapControllers();

@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Rotativa.AspNetCore;
+using Rotativa.AspNetCore.Options;
 using ServiceContracts;
 using ServiceContracts.DTO;
 using ServiceContracts.Enums;
@@ -142,5 +144,20 @@ public class PersonsController : Controller
         await _personsService.DeletePerson(personUpdateRequest.Id);
 
         return RedirectToAction("Index");
+    }
+
+    [Route("PersonsPDF")]
+    public async Task<IActionResult> PersonsPDF()
+    {
+        List<PersonResponse> persons = await _personsService.GetAllPersons();
+
+        return new ViewAsPdf("PersonsPDF", persons, ViewData)
+        {
+            PageMargins = new Margins
+            {
+                Top = 20, Right = 20, Bottom = 20, Left = 20
+            },
+            PageOrientation = Orientation.Landscape
+        };
     }
 }
