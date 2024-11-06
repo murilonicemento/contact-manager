@@ -1,3 +1,5 @@
+using System.Globalization;
+using CsvHelper;
 using Entities;
 using Microsoft.EntityFrameworkCore;
 using ServiceContracts;
@@ -178,5 +180,24 @@ public class PersonsService : IPersonsService
         await _db.SaveChangesAsync();
 
         return true;
+    }
+
+    public async Task<MemoryStream> GetPersonsCSV()
+    {
+        MemoryStream memoryStream = new();
+        StreamWriter streamWriter = new(memoryStream);
+        CsvWriter csvWriter = new(streamWriter, CultureInfo.InvariantCulture, true);
+
+        csvWriter.WriteHeader<PersonResponse>();
+        await csvWriter.NextRecordAsync();
+
+        List<PersonResponse> persons =
+            await _db.Persons.Include("Country").Select(person => person.ToPersonResponse()).ToListAsync();
+
+        await csvWriter.WriteRecordsAsync(persons);
+
+        memoryStream.Position = 0;
+
+        return memoryStream;
     }
 }

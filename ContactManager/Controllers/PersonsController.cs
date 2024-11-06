@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -159,5 +160,13 @@ public class PersonsController : Controller
             },
             PageOrientation = Orientation.Landscape
         };
+    }
+
+    [Route("PersonsCSV")]
+    public async Task<IActionResult> PersonsCSV()
+    {
+        MemoryStream memoryStream = await _personsService.GetPersonsCSV();
+
+        return File(memoryStream, "application/octet-stream", "persons.csv");
     }
 }
