@@ -1,5 +1,6 @@
 using System.Globalization;
 using CsvHelper;
+using CsvHelper.Configuration;
 using Entities;
 using Microsoft.EntityFrameworkCore;
 using ServiceContracts;
@@ -186,13 +187,36 @@ public class PersonsService : IPersonsService
     {
         MemoryStream memoryStream = new();
         StreamWriter streamWriter = new(memoryStream);
-        CsvWriter csvWriter = new(streamWriter, CultureInfo.InvariantCulture, true);
+        CsvConfiguration csvConfiguration = new(CultureInfo.InvariantCulture);
+        CsvWriter csvWriter = new(streamWriter, csvConfiguration);
 
-        csvWriter.WriteHeader<PersonResponse>();
+        csvWriter.WriteField(nameof(PersonResponse.Name));
+        csvWriter.WriteField(nameof(PersonResponse.Email));
+        csvWriter.WriteField(nameof(PersonResponse.DateOfBirth));
+        csvWriter.WriteField(nameof(PersonResponse.Age));
+        csvWriter.WriteField(nameof(PersonResponse.Gender));
+        csvWriter.WriteField(nameof(PersonResponse.Country));
+        csvWriter.WriteField(nameof(PersonResponse.Address));
+        csvWriter.WriteField(nameof(PersonResponse.ReceiveNewsLetters));
+
         await csvWriter.NextRecordAsync();
 
         List<PersonResponse> persons =
             await _db.Persons.Include("Country").Select(person => person.ToPersonResponse()).ToListAsync();
+
+        foreach (PersonResponse person in persons)
+        {
+            csvWriter.WriteField(person.Name);
+            csvWriter.WriteField(person.Email);
+            csvWriter.WriteField(person.DateOfBirth?.ToString("yyyy-MM-dd"));
+            csvWriter.WriteField(person.Age);
+            csvWriter.WriteField(person.Country);
+            csvWriter.WriteField(person.Address);
+            csvWriter.WriteField(person.ReceiveNewsLetters);
+
+            await csvWriter.NextRecordAsync();
+            await csvWriter.FlushAsync();
+        }
 
         await csvWriter.WriteRecordsAsync(persons);
 
