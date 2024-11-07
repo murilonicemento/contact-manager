@@ -3,6 +3,7 @@ using CsvHelper;
 using CsvHelper.Configuration;
 using Entities;
 using Microsoft.EntityFrameworkCore;
+using OfficeOpenXml;
 using ServiceContracts;
 using ServiceContracts.DTO;
 using ServiceContracts.Enums;
@@ -219,6 +220,56 @@ public class PersonsService : IPersonsService
         }
 
         await csvWriter.WriteRecordsAsync(persons);
+
+        memoryStream.Position = 0;
+
+        return memoryStream;
+    }
+
+    public async Task<MemoryStream> GetPersonExcel()
+    {
+        MemoryStream memoryStream = new();
+
+        using (ExcelPackage excelPackage = new())
+        {
+            ExcelWorksheet worksheet = excelPackage.Workbook.Worksheets.Add("PersonsSheet");
+
+            worksheet.Cells["A1"].Value = "Person Name";
+            worksheet.Cells["B1"].Value = "Email";
+            worksheet.Cells["C1"].Value = "Date of Birth";
+            worksheet.Cells["D1"].Value = "Age";
+            worksheet.Cells["E1"].Value = "Gender";
+            worksheet.Cells["F1"].Value = "Country";
+            worksheet.Cells["G1"].Value = "Address";
+            worksheet.Cells["H1"].Value = "Receive News Letter";
+
+            using (ExcelRange headerCells = worksheet.Cells["A1:h1"])
+            {
+                headerCells.Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+                headerCells.Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.Lime);
+                headerCells.Style.Font.Bold = true;
+            }
+
+            int row = 2;
+            List<PersonResponse> persons = await _db.Persons.Select(temp => temp.ToPersonResponse()).ToListAsync();
+
+            foreach (var person in persons)
+            {
+                worksheet.Cells[row, 1].Value = person.Name;
+                worksheet.Cells[row, 2].Value = person.Email;
+                worksheet.Cells[row, 3].Value = person.DateOfBirth?.ToString("yyyy MMMM dd");
+                worksheet.Cells[row, 4].Value = person.Age;
+                worksheet.Cells[row, 5].Value = person.Gender;
+                worksheet.Cells[row, 6].Value = person.Country;
+                worksheet.Cells[row, 7].Value = person.Address;
+                worksheet.Cells[row, 8].Value = person.ReceiveNewsLetters;
+
+                row++;
+            }
+
+            worksheet.Cells[$"A1:H{row}"].AutoFitColumns();
+            await excelPackage.SaveAsync();
+        }
 
         memoryStream.Position = 0;
 

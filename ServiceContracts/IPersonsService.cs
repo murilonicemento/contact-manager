@@ -64,4 +64,10 @@ public interface IPersonsService
     /// </summary>
     /// <returns>Return the memory stream with CSV data</returns>
     Task<MemoryStream> GetPersonsCSV();
+    
+    /// <summary>
+    /// Returns persons as excel
+    /// </summary>
+    /// <returns>Return the memory stream with xlsx data</returns>
+    Task<MemoryStream> GetPersonExcel();
 }
