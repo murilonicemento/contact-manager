@@ -6,12 +6,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Entities;
 
-public class PersonsDbContext : DbContext
+public class ApplicationDbContext : DbContext
 {
-    public DbSet<Country> Countries { get; set; }
-    public DbSet<Person> Persons { get; set; }
+    public virtual DbSet<Country> Countries { get; set; }
+    public virtual DbSet<Person> Persons { get; set; }
 
-    public PersonsDbContext(DbContextOptions options) : base(options)
+    public ApplicationDbContext(DbContextOptions options) : base(options)
     {
     }
 
@@ -47,8 +47,9 @@ public class PersonsDbContext : DbContext
             .HasDefaultValue("ABCD1234");
 
         // modelBuilder.Entity<Person>().HasIndex(temp => temp.Id).IsUnique();
-        modelBuilder.Entity<Person>().HasCheckConstraint("CHK_TIN", "len([TaxIdentificationNumber]) = 8"); // s_Ctring length deve ser 8
-        
+        modelBuilder.Entity<Person>()
+            .HasCheckConstraint("CHK_TIN", "len([TaxIdentificationNumber]) = 8"); // s_Ctring length deve ser 8
+
         // Table Relations
         // modelBuilder.Entity<Person>(entity =>
         // {
