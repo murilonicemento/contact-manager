@@ -28,7 +28,7 @@ public interface IPersonsRepository
     /// </summary>
     /// <param name="id">PersonId (guid) to search</param>
     /// <returns>A person object or null</returns>
-    Task<List<Person>> GetPersonByPersonId(Guid id);
+    Task<Person?> GetPersonByPersonId(Guid id);
 
 
     /// <summary>
