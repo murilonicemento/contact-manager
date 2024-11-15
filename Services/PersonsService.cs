@@ -61,28 +61,28 @@ public class PersonsService : IPersonsService
         {
             nameof(PersonResponse.Name) =>
                 (await _personsRepository.GetFilteredPersons(person =>
-                    person.Name.Contains(searchString, StringComparison.OrdinalIgnoreCase)))
+                    person.Name.Contains(searchString)))
                 .Select(temp => temp.ToPersonResponse()).ToList(),
             nameof(PersonResponse.Email) =>
                 (await _personsRepository.GetFilteredPersons(person =>
-                    person.Email.Contains(searchString, StringComparison.OrdinalIgnoreCase)))
+                    person.Email.Contains(searchString)))
                 .Select(temp => temp.ToPersonResponse()).ToList(),
             nameof(PersonResponse.DateOfBirth) =>
                 (await _personsRepository.GetFilteredPersons(person =>
                     person.DateOfBirth.Value.ToString("dd MMMM yyyy")
-                        .Contains(searchString, StringComparison.OrdinalIgnoreCase)))
+                        .Contains(searchString)))
                 .Select(temp => temp.ToPersonResponse()).ToList(),
             nameof(PersonResponse.Gender) =>
                 (await _personsRepository.GetFilteredPersons(person =>
-                    person.Gender.Contains(searchString, StringComparison.OrdinalIgnoreCase)))
+                    person.Gender.Contains(searchString)))
                 .Select(temp => temp.ToPersonResponse()).ToList(),
             nameof(PersonResponse.CountryId) =>
                 (await _personsRepository.GetFilteredPersons(person =>
-                    person.Country.Name.Contains(searchString, StringComparison.OrdinalIgnoreCase)))
+                    person.Country.Name.Contains(searchString)))
                 .Select(temp => temp.ToPersonResponse()).ToList(),
             nameof(PersonResponse.Address) =>
                 (await _personsRepository.GetFilteredPersons(person =>
-                    person.Address.Contains(searchString, StringComparison.OrdinalIgnoreCase)))
+                    person.Address.Contains(searchString)))
                 .Select(temp => temp.ToPersonResponse()).ToList(),
             _ => (await _personsRepository.GetAllPersons()).Select(temp => temp.ToPersonResponse()).ToList(),
         };
