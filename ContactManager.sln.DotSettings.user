@@ -1,29 +1,7 @@
 ﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
 	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003ADbContextServices_002Ecs_002Fl_003A_002E_002E_003F_002E_002E_003F_002Econfig_003FJetBrains_003FRider2024_002E2_003Fresharper_002Dhost_003FSourcesCache_003Ffe2f12f3e68e67de84733fecd21594c6ce7cce62332ffc3ab5c28d4deb98ea4c_003FDbContextServices_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
 	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003AQueryable_002Ecs_002Fl_003A_002E_002E_003F_002E_002E_003F_002Econfig_003FJetBrains_003FRider2024_002E2_003Fresharper_002Dhost_003FSourcesCache_003F20f65e79ceaad992a4c25241d6bf3582951761f90e6c362e79667f19afc_003FQueryable_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=2b9d5a56_002D1ee0_002D47b4_002D9cf7_002D5f47ac3642d8/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="Test1" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
-  &lt;Or&gt;
-    &lt;And&gt;
-      &lt;TestAncestor&gt;
-        &lt;TestId&gt;xUnit::0659F18B-68C9-4285-B2DD-98FBB0A7F2A1::net8.0::Tests.UnitTest1.Test1&lt;/TestId&gt;
-        &lt;TestId&gt;xUnit::0659F18B-68C9-4285-B2DD-98FBB0A7F2A1::net8.0::Tests.CountriesServiceTest.AddCountry_NullCountry&lt;/TestId&gt;
-        &lt;TestId&gt;xUnit::0659F18B-68C9-4285-B2DD-98FBB0A7F2A1::net8.0::Tests.CountriesServiceTest.AddCountry_CountryNameIsNull&lt;/TestId&gt;
-        &lt;TestId&gt;xUnit::0659F18B-68C9-4285-B2DD-98FBB0A7F2A1::net8.0::Tests.CountriesServiceTest.AddCountry_CountryNameIsDuplicate&lt;/TestId&gt;
-        &lt;TestId&gt;xUnit::0659F18B-68C9-4285-B2DD-98FBB0A7F2A1::net8.0::Tests.CountriesServiceTest.AddCountry_ProperCountryDetails&lt;/TestId&gt;
-        &lt;TestId&gt;xUnit::0659F18B-68C9-4285-B2DD-98FBB0A7F2A1::net8.0::Tests.CountriesServiceTest.GetAllCountries_EmptyList&lt;/TestId&gt;
-        &lt;TestId&gt;xUnit::0659F18B-68C9-4285-B2DD-98FBB0A7F2A1::net8.0::Tests.CountriesServiceTest.GetAllCountries_AddFewCountries&lt;/TestId&gt;
-        &lt;TestId&gt;xUnit::0659F18B-68C9-4285-B2DD-98FBB0A7F2A1::net8.0::Tests.CountriesServiceTest.GetCountryByCountryId_NullCountryId&lt;/TestId&gt;
-        &lt;TestId&gt;xUnit::0659F18B-68C9-4285-B2DD-98FBB0A7F2A1::net8.0::Tests.CountriesServiceTest.GetCountryByCountryId_ValidCountryId&lt;/TestId&gt;
-      &lt;/TestAncestor&gt;
-      &lt;Not&gt;
-        &lt;TestAncestor&gt;
-          &lt;TestId&gt;xUnit::0659F18B-68C9-4285-B2DD-98FBB0A7F2A1::net8.0::Tests.UnitTest1&lt;/TestId&gt;
-        &lt;/TestAncestor&gt;
-      &lt;/Not&gt;
-    &lt;/And&gt;
-    &lt;TestAncestor&gt;
-      &lt;TestId&gt;xUnit::0659F18B-68C9-4285-B2DD-98FBB0A7F2A1::net8.0::Tests.PersonServiceTest.AddPerson_NullPerson&lt;/TestId&gt;
-      &lt;TestId&gt;xUnit::0659F18B-68C9-4285-B2DD-98FBB0A7F2A1::net8.0::Tests.PersonServiceTest&lt;/TestId&gt;
-    &lt;/TestAncestor&gt;
-  &lt;/Or&gt;
-&lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=657cc172_002Dcc72_002D47f6_002D9791_002D6cbc967542e3/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="All tests from Solution" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;Solution /&gt;
+&lt;/SessionState&gt;</s:String>
+	</wpf:ResourceDictionary>

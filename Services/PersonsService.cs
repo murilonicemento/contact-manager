@@ -15,12 +15,10 @@ namespace Services;
 public class PersonsService : IPersonsService
 {
     private readonly IPersonsRepository _personsRepository;
-    private readonly ICountriesService _countriesService;
 
-    public PersonsService(IPersonsRepository personsRepository, ICountriesService countriesService)
+    public PersonsService(IPersonsRepository personsRepository)
     {
         _personsRepository = personsRepository;
-        _countriesService = countriesService;
     }
 
     public async Task<PersonResponse> AddPerson(PersonAddRequest? personAddRequest)
