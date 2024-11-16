@@ -3,6 +3,8 @@ using Entities;
 using EntityFrameworkCoreMock;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
+using Moq;
+using RepositoryContracts;
 using ServiceContracts;
 using ServiceContracts.DTO;
 using ServiceContracts.Enums;
@@ -15,22 +17,29 @@ public class PersonServiceTest
 {
     private readonly IPersonsService _personsService;
     private readonly ICountriesService _countriesService;
+    private readonly Mock<IPersonsRepository> _personsRepositoryMock;
+    private readonly IPersonsRepository _personsRepository;
     private readonly ITestOutputHelper _testOutputHelper;
     private readonly IFixture _fixture;
 
     public PersonServiceTest(ITestOutputHelper testOutputHelper)
     {
         _fixture = new Fixture();
-        List<Country> countriesInitialData = new();
-        List<Person> personsInitialData = new();
-        DbContextMock<ApplicationDbContext> dbContextMock = new(new DbContextOptionsBuilder().Options);
-        ApplicationDbContext dbContext = dbContextMock.Object;
+        // DB CONTEXT MOCK
+        // List<Country> countriesInitialData = new();
+        // List<Person> personsInitialData = new();
+        // DbContextMock<ApplicationDbContext> dbContextMock = new(new DbContextOptionsBuilder().Options);
+        // ApplicationDbContext dbContext = dbContextMock.Object;
+        //
+        // dbContextMock.CreateDbSetMock(temp => temp.Countries, countriesInitialData);
+        // dbContextMock.CreateDbSetMock(temp => temp.Persons, personsInitialData);
 
-        dbContextMock.CreateDbSetMock(temp => temp.Countries, countriesInitialData);
-        dbContextMock.CreateDbSetMock(temp => temp.Persons, personsInitialData);
+        // REPOSITORY MOCK
+        _personsRepositoryMock = new Mock<IPersonsRepository>();
+        _personsRepository = _personsRepositoryMock.Object;
 
         _countriesService = new CountriesService(null);
-        _personsService = new PersonsService(null, _countriesService);
+        _personsService = new PersonsService(_personsRepository, _countriesService);
         _testOutputHelper = testOutputHelper;
     }
 
@@ -61,19 +70,24 @@ public class PersonServiceTest
 
     // When we supply proper person details, it should insert the person into the person list; and it should return object of PersonResponse, which includes with the newly generated person id
     [Fact]
-    public async Task AddPerson_ProperPersonDetails()
+    public async Task AddPerson_FullPersonDetails_ToBeSuccessful()
     {
         PersonAddRequest personAddRequest =
             _fixture.Build<PersonAddRequest>().With(temp => temp.Email, "someone@email.com").Create();
+        Person person = personAddRequest.ToPerson();
+        PersonResponse personExpected = person.ToPersonResponse();
+
+        // if we supply any argument value to the AddPerson method, it should return the same return value
+        _personsRepositoryMock.Setup(temp => temp.AddPerson(It.IsAny<Person>())).ReturnsAsync(person);
 
         PersonResponse personResponse = await _personsService.AddPerson(personAddRequest: personAddRequest);
-        List<PersonResponse> listOfPerson = await _personsService.GetAllPersons();
 
         // Assert.True(personResponse.Id != Guid.Empty);
         // Assert.Contains(personResponse, listOfPerson);
+        personExpected.Id = personResponse.Id;
 
         personResponse.Id.Should().NotBe(Guid.Empty);
-        listOfPerson.Should().Contain(personResponse);
+        personResponse.Should().Be(personExpected);
     }
 
     #endregion
