@@ -79,7 +79,7 @@ public class PersonsController : Controller
                 new SelectListItem() { Text = temp.Name, Value = temp.Id.ToString() });
             ViewBag.Errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
 
-            return View();
+            return View(personAddRequest);
         }
 
         await _personsService.AddPerson(personAddRequest);
