@@ -11,6 +11,14 @@ using Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Host.ConfigureLogging(loggingProvider =>
+{
+    loggingProvider.ClearProviders();
+    loggingProvider.AddConsole();
+    loggingProvider.AddDebug();
+    loggingProvider.AddEventLog();
+});
+
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddScoped<ICountriesService, CountriesService>();
