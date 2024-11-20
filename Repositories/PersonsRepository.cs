@@ -1,6 +1,7 @@
 using System.Linq.Expressions;
 using Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using RepositoryContracts;
 
 namespace Repositories;
@@ -8,10 +9,12 @@ namespace Repositories;
 public class PersonsRepository : IPersonsRepository
 {
     private readonly ApplicationDbContext _db;
+    private readonly ILogger<PersonsRepository> _logger;
 
-    public PersonsRepository(ApplicationDbContext db)
+    public PersonsRepository(ApplicationDbContext db, ILogger<PersonsRepository> logger)
     {
         _db = db;
+        _logger = logger;
     }
 
     public async Task<Person> AddPerson(Person person)
@@ -24,6 +27,8 @@ public class PersonsRepository : IPersonsRepository
 
     public async Task<List<Person>> GetAllPersons()
     {
+        _logger.LogInformation("GetAllPersons of PersonsRepository");
+        
         return await _db.Persons.Include("Country").ToListAsync();
     }
 
@@ -34,12 +39,15 @@ public class PersonsRepository : IPersonsRepository
 
     public async Task<List<Person>> GetFilteredPersons(Expression<Func<Person, bool>> predicate)
     {
+        _logger.LogInformation("GetFilteredPerson of PersonsRepository");
+        
         return await _db.Persons.Include("Country").Where(predicate).ToListAsync();
     }
 
     public async Task<bool> DeletePersonByPersonId(Guid id)
     {
         _db.Persons.RemoveRange(_db.Persons.Where(person => person.Id == id));
+        
         int rowsDeleted = await _db.SaveChangesAsync();
 
         return rowsDeleted > 0;
