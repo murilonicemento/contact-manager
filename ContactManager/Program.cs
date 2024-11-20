@@ -7,15 +7,24 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Repositories;
 using RepositoryContracts;
+using Serilog;
 using ServiceContracts;
 using Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Logging.ClearProviders();
-builder.Logging.AddConsole();
-builder.Logging.AddDebug();
-builder.Logging.AddEventLog();
+// builder.Logging.ClearProviders();
+// builder.Logging.AddConsole();
+// builder.Logging.AddDebug();
+// builder.Logging.AddEventLog();
+
+builder.Host.UseSerilog(
+    (HostBuilderContext context, IServiceProvider services, LoggerConfiguration loggerConfiguration) =>
+    {
+        loggerConfiguration.ReadFrom
+            .Configuration(context.Configuration) // read configuration settings from built-in IConfiguration
+            .ReadFrom.Services(services); // read out current app's services and make them available to serilog
+    });
 
 builder.Services.AddControllersWithViews();
 
