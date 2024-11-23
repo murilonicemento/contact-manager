@@ -20,4 +20,10 @@ public class Person
     public string? TIN { get; set; }
 
     [ForeignKey("CountryId")] public virtual Country? Country { get; set; }
+
+    public override string ToString()
+    {
+        return
+            $"Person ID: {Id}, Person Name: {Name}, Email: {Email}, Date of Birth: {DateOfBirth?.ToString("MM/dd/yyyy")}, Gender: {Gender}, Country ID: {CountryId}, Country: {Country?.Name}, Address: {Address}, Receive News Letters: {ReceiveNewsLetters}";
+    }
 }

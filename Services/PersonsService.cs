@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using OfficeOpenXml;
 using RepositoryContracts;
+using Serilog;
 using ServiceContracts;
 using ServiceContracts.DTO;
 using ServiceContracts.Enums;
@@ -17,11 +18,14 @@ public class PersonsService : IPersonsService
 {
     private readonly IPersonsRepository _personsRepository;
     private readonly ILogger<PersonsService> _logger;
+    private readonly IDiagnosticContext _diagnosticContext;
 
-    public PersonsService(IPersonsRepository personsRepository, ILogger<PersonsService> logger)
+    public PersonsService(IPersonsRepository personsRepository, ILogger<PersonsService> logger,
+        IDiagnosticContext diagnosticContext)
     {
         _personsRepository = personsRepository;
         _logger = logger;
+        _diagnosticContext = diagnosticContext;
     }
 
     public async Task<PersonResponse> AddPerson(PersonAddRequest? personAddRequest)
@@ -41,7 +45,7 @@ public class PersonsService : IPersonsService
     public async Task<List<PersonResponse>> GetAllPersons()
     {
         _logger.LogInformation("GetAllPersons of PersonsService");
-        
+
         List<Person> persons = await _personsRepository.GetAllPersons();
 
         return persons.Select(person => person.ToPersonResponse()).ToList();
@@ -61,7 +65,7 @@ public class PersonsService : IPersonsService
     public async Task<List<PersonResponse>> GetFilteredPerson(string searchBy, string? searchString)
     {
         _logger.LogInformation("GetFilteredPerson of PersonService");
-        
+
         List<PersonResponse> allPersons = searchBy switch
         {
             nameof(PersonResponse.Name) =>
@@ -91,6 +95,8 @@ public class PersonsService : IPersonsService
                 .Select(temp => temp.ToPersonResponse()).ToList(),
             _ => (await _personsRepository.GetAllPersons()).Select(temp => temp.ToPersonResponse()).ToList(),
         };
+
+        _diagnosticContext.Set("Persons", allPersons);
 
         return allPersons;
     }
