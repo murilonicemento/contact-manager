@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using OfficeOpenXml;
 using RepositoryContracts;
 using Serilog;
+using SerilogTimings;
 using ServiceContracts;
 using ServiceContracts.DTO;
 using ServiceContracts.Enums;
@@ -66,35 +67,40 @@ public class PersonsService : IPersonsService
     {
         _logger.LogInformation("GetFilteredPerson of PersonService");
 
-        List<PersonResponse> allPersons = searchBy switch
+        List<PersonResponse> allPersons;
+
+        using (Operation.Time("Time for filter persons from database"))
         {
-            nameof(PersonResponse.Name) =>
-                (await _personsRepository.GetFilteredPersons(person =>
-                    person.Name.Contains(searchString)))
-                .Select(temp => temp.ToPersonResponse()).ToList(),
-            nameof(PersonResponse.Email) =>
-                (await _personsRepository.GetFilteredPersons(person =>
-                    person.Email.Contains(searchString)))
-                .Select(temp => temp.ToPersonResponse()).ToList(),
-            nameof(PersonResponse.DateOfBirth) =>
-                (await _personsRepository.GetFilteredPersons(person =>
-                    person.DateOfBirth.Value.ToString("dd MMMM yyyy")
-                        .Contains(searchString)))
-                .Select(temp => temp.ToPersonResponse()).ToList(),
-            nameof(PersonResponse.Gender) =>
-                (await _personsRepository.GetFilteredPersons(person =>
-                    person.Gender.Contains(searchString)))
-                .Select(temp => temp.ToPersonResponse()).ToList(),
-            nameof(PersonResponse.CountryId) =>
-                (await _personsRepository.GetFilteredPersons(person =>
-                    person.Country.Name.Contains(searchString)))
-                .Select(temp => temp.ToPersonResponse()).ToList(),
-            nameof(PersonResponse.Address) =>
-                (await _personsRepository.GetFilteredPersons(person =>
-                    person.Address.Contains(searchString)))
-                .Select(temp => temp.ToPersonResponse()).ToList(),
-            _ => (await _personsRepository.GetAllPersons()).Select(temp => temp.ToPersonResponse()).ToList(),
-        };
+            allPersons = searchBy switch
+            {
+                nameof(PersonResponse.Name) =>
+                    (await _personsRepository.GetFilteredPersons(person =>
+                        person.Name.Contains(searchString)))
+                    .Select(temp => temp.ToPersonResponse()).ToList(),
+                nameof(PersonResponse.Email) =>
+                    (await _personsRepository.GetFilteredPersons(person =>
+                        person.Email.Contains(searchString)))
+                    .Select(temp => temp.ToPersonResponse()).ToList(),
+                nameof(PersonResponse.DateOfBirth) =>
+                    (await _personsRepository.GetFilteredPersons(person =>
+                        person.DateOfBirth.Value.ToString("dd MMMM yyyy")
+                            .Contains(searchString)))
+                    .Select(temp => temp.ToPersonResponse()).ToList(),
+                nameof(PersonResponse.Gender) =>
+                    (await _personsRepository.GetFilteredPersons(person =>
+                        person.Gender.Contains(searchString)))
+                    .Select(temp => temp.ToPersonResponse()).ToList(),
+                nameof(PersonResponse.CountryId) =>
+                    (await _personsRepository.GetFilteredPersons(person =>
+                        person.Country.Name.Contains(searchString)))
+                    .Select(temp => temp.ToPersonResponse()).ToList(),
+                nameof(PersonResponse.Address) =>
+                    (await _personsRepository.GetFilteredPersons(person =>
+                        person.Address.Contains(searchString)))
+                    .Select(temp => temp.ToPersonResponse()).ToList(),
+                _ => (await _personsRepository.GetAllPersons()).Select(temp => temp.ToPersonResponse()).ToList(),
+            };
+        }
 
         _diagnosticContext.Set("Persons", allPersons);
 

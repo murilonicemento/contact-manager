@@ -2,10 +2,12 @@ using AutoFixture;
 using ContactManager.Controllers;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Moq;
 using ServiceContracts;
 using ServiceContracts.DTO;
 using ServiceContracts.Enums;
+using Services;
 
 namespace Tests;
 
@@ -16,6 +18,8 @@ public class PersonsControllerTest
     private readonly Mock<IPersonsService> _personsServiceMock;
     private readonly Mock<ICountriesService> _countriesServiceMock;
     private readonly Fixture _fixture;
+    private readonly Mock<ILogger<PersonsController>> _loggerMock;
+    private readonly ILogger<PersonsController> _logger;
 
     public PersonsControllerTest()
     {
@@ -24,6 +28,9 @@ public class PersonsControllerTest
         _personsServiceMock = new Mock<IPersonsService>();
         _countriesService = _countriesServiceMock.Object;
         _personsService = _personsServiceMock.Object;
+
+        _loggerMock = new Mock<ILogger<PersonsController>>();
+        _logger = _loggerMock.Object;
     }
 
     #region Index
@@ -33,7 +40,7 @@ public class PersonsControllerTest
     {
         List<PersonResponse> personResponses = _fixture.Create<List<PersonResponse>>();
 
-        PersonsController personsController = new PersonsController(_personsService, _countriesService);
+        PersonsController personsController = new PersonsController(_personsService, _countriesService, _logger);
 
         _personsServiceMock.Setup(temp => temp.GetFilteredPerson(It.IsAny<string>(), It.IsAny<string>()))
             .ReturnsAsync(personResponses);
@@ -71,7 +78,7 @@ public class PersonsControllerTest
             .Setup(temp => temp.AddPerson(It.IsAny<PersonAddRequest>()))
             .ReturnsAsync(personResponse);
 
-        PersonsController personsController = new PersonsController(_personsService, _countriesService);
+        PersonsController personsController = new PersonsController(_personsService, _countriesService, _logger);
 
         personsController.ModelState.AddModelError("PersonName", "Person Name can't be blank");
 
@@ -98,7 +105,7 @@ public class PersonsControllerTest
             .Setup(temp => temp.AddPerson(It.IsAny<PersonAddRequest>()))
             .ReturnsAsync(personResponse);
 
-        PersonsController personsController = new PersonsController(_personsService, _countriesService);
+        PersonsController personsController = new PersonsController(_personsService, _countriesService, _logger);
         IActionResult result = await personsController.Create(personAddRequest);
         RedirectToActionResult redirectResult = Assert.IsType<RedirectToActionResult>(result);
 

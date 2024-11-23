@@ -9,6 +9,7 @@ using Microsoft.Extensions.Logging;
 using Moq;
 using Repositories;
 using RepositoryContracts;
+using Serilog;
 using ServiceContracts;
 using ServiceContracts.DTO;
 using ServiceContracts.Enums;
@@ -24,6 +25,10 @@ public class PersonServiceTest
     private readonly IPersonsRepository _personsRepository;
     private readonly ITestOutputHelper _testOutputHelper;
     private readonly IFixture _fixture;
+    private readonly Mock<ILogger<PersonsService>> _loggerMock;
+    private readonly ILogger<PersonsService> _logger;
+    private readonly Mock<IDiagnosticContext> _diagnosticContextMock;
+    private readonly IDiagnosticContext _diagnosticContext;
 
     public PersonServiceTest(ITestOutputHelper testOutputHelper)
     {
@@ -40,7 +45,11 @@ public class PersonServiceTest
         // REPOSITORY MOCK
         _personsRepositoryMock = new Mock<IPersonsRepository>();
         _personsRepository = _personsRepositoryMock.Object;
-        _personsService = new PersonsService(_personsRepository);
+        _loggerMock = new Mock<ILogger<PersonsService>>();
+        _logger = _loggerMock.Object;
+        _diagnosticContextMock = new Mock<IDiagnosticContext>();
+        _diagnosticContext = _diagnosticContextMock.Object;
+        _personsService = new PersonsService(_personsRepository, _logger, _diagnosticContext);
         _testOutputHelper = testOutputHelper;
     }
 
