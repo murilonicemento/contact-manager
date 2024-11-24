@@ -11,7 +11,10 @@ public class PersonsListActionFilter(ILogger<PersonsListActionFilter> logger) : 
     public void OnActionExecuting(ActionExecutingContext context)
     {
         context.HttpContext.Items["arguments"] = context.ActionArguments;
-        _logger.LogInformation("PersonListActionFilter onActionExecuting method");
+
+        _logger.LogInformation("{FilterName}.{MethodName} method", nameof(PersonsListActionFilter),
+            nameof(ActionExecutingContext));
+
         if (context.ActionArguments.TryGetValue("searchBy", out object? value))
         {
             string? searchBy = Convert.ToString(value);
@@ -42,7 +45,8 @@ public class PersonsListActionFilter(ILogger<PersonsListActionFilter> logger) : 
 
     public void OnActionExecuted(ActionExecutedContext context)
     {
-        _logger.LogInformation("PersonListActionFilter OnActionExecuted method");
+        _logger.LogInformation("{FilterName}.{MethodName} method", nameof(PersonsListActionFilter),
+            nameof(ActionExecutedContext));
 
         PersonsController personsController = (PersonsController)context.Controller;
         IDictionary<string, object?>?
