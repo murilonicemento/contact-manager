@@ -21,7 +21,8 @@ public class PersonsController : Controller
     private readonly ICountriesService _countriesService;
     private readonly ILogger<PersonsController> _logger;
 
-    public PersonsController(IPersonsService personsService, ICountriesService countriesService, ILogger<PersonsController> logger)
+    public PersonsController(IPersonsService personsService, ICountriesService countriesService,
+        ILogger<PersonsController> logger)
     {
         _personsService = personsService;
         _countriesService = countriesService;
@@ -35,26 +36,11 @@ public class PersonsController : Controller
         string sortBy = nameof(PersonResponse.Name), SortOrderOptions sortOrder = SortOrderOptions.ASC)
     {
         _logger.LogInformation("Index action method in PersonsController");
-        _logger.LogDebug($"searchBy: {searchBy}, searchString: {searchString}, sortBy: {sortBy}, sortOrder: {sortOrder}");
-        ViewBag.SearchFields = new Dictionary<string, string>()
-        {
-            { nameof(PersonResponse.Name), "Person Name" },
-            { nameof(PersonResponse.Email), "Email" },
-            { nameof(PersonResponse.DateOfBirth), "Date of Birth" },
-            { nameof(PersonResponse.Gender), "Gender" },
-            { nameof(PersonResponse.CountryId), "Country" },
-            { nameof(PersonResponse.Address), "Address" }
-        };
+        _logger.LogDebug(
+            $"searchBy: {searchBy}, searchString: {searchString}, sortBy: {sortBy}, sortOrder: {sortOrder}");
+
         List<PersonResponse> persons = await _personsService.GetFilteredPerson(searchBy, searchString);
-
-        ViewBag.CurrentSearchBy = searchBy;
-        ViewBag.CurrentSearchString = searchString ?? string.Empty;
-
-        //Sort
         List<PersonResponse> sortedPersons = await _personsService.GetSortedPersons(persons, sortBy, sortOrder);
-
-        ViewBag.CurrentSortBy = sortBy;
-        ViewBag.CurrentSortOrder = sortOrder.ToString();
 
         return View(sortedPersons);
     }
