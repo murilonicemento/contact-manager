@@ -1,12 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using ContactManager.Filters.ActionFilters;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Rotativa.AspNetCore;
 using Rotativa.AspNetCore.Options;
 using ServiceContracts;
@@ -16,6 +10,10 @@ using ServiceContracts.Enums;
 namespace ContactManager.Controllers;
 
 [Route("[controller]")]
+[TypeFilter(typeof(ResponseHeaderActionFilter), Arguments =
+[
+    "My-Key-Controller", "My-Value-Controller"
+])]
 public class PersonsController : Controller
 {
     private readonly IPersonsService _personsService;

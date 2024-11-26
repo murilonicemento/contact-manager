@@ -1,11 +1,7 @@
 using ContactManager.Filters.ActionFilters;
 using Entities;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.HttpLogging;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Repositories;
 using RepositoryContracts;
 using Serilog;
@@ -20,14 +16,21 @@ var builder = WebApplication.CreateBuilder(args);
 // builder.Logging.AddEventLog();
 
 builder.Host.UseSerilog(
-    (HostBuilderContext context, IServiceProvider services, LoggerConfiguration loggerConfiguration) =>
+    (context, services, loggerConfiguration) =>
     {
         loggerConfiguration.ReadFrom
             .Configuration(context.Configuration) // read configuration settings from built-in IConfiguration
             .ReadFrom.Services(services); // read out current app's services and make them available to serilog
     });
 
-builder.Services.AddControllersWithViews();
+// adds filter globally
+builder.Services.AddControllersWithViews(options =>
+{
+    var logger = builder.Services.BuildServiceProvider().GetRequiredService<ILogger<ResponseHeaderActionFilter>>();
+
+    options.Filters.Add<ResponseHeaderActionFilter>();
+    options.Filters.Add(new ResponseHeaderActionFilter(logger, "My-Key-Global", "My-value-Global"));
+});
 
 builder.Services.AddScoped<ICountriesService, CountriesService>();
 builder.Services.AddScoped<IPersonsService, PersonsService>();
