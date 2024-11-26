@@ -12,8 +12,8 @@ namespace ContactManager.Controllers;
 [Route("[controller]")]
 [TypeFilter(typeof(ResponseHeaderActionFilter), Arguments =
 [
-    "My-Key-Controller", "My-Value-Controller"
-], Order = 2)]
+    "My-Key-Controller", "My-Value-Controller", 3
+], Order = 3)]
 public class PersonsController : Controller
 {
     private readonly IPersonsService _personsService;
@@ -30,10 +30,10 @@ public class PersonsController : Controller
 
     [Route("[action]")]
     [Route("/")]
-    [TypeFilter(typeof(PersonsListActionFilter))]
+    [TypeFilter(typeof(PersonsListActionFilter), Order = 4)]
     [TypeFilter(typeof(ResponseHeaderActionFilter), Arguments =
     [
-        "X-Custom-Key", "Custom-Value"
+        "X-Custom-Key", "Custom-Value", 1
     ], Order = 1)]
     public async Task<IActionResult> Index(string searchBy, string? searchString,
         string sortBy = nameof(PersonResponse.Name), SortOrderOptions sortOrder = SortOrderOptions.ASC)
