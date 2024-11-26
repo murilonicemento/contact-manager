@@ -13,7 +13,7 @@ namespace ContactManager.Controllers;
 [TypeFilter(typeof(ResponseHeaderActionFilter), Arguments =
 [
     "My-Key-Controller", "My-Value-Controller"
-])]
+], Order = 2)]
 public class PersonsController : Controller
 {
     private readonly IPersonsService _personsService;
@@ -34,7 +34,7 @@ public class PersonsController : Controller
     [TypeFilter(typeof(ResponseHeaderActionFilter), Arguments =
     [
         "X-Custom-Key", "Custom-Value"
-    ])]
+    ], Order = 1)]
     public async Task<IActionResult> Index(string searchBy, string? searchString,
         string sortBy = nameof(PersonResponse.Name), SortOrderOptions sortOrder = SortOrderOptions.ASC)
     {
