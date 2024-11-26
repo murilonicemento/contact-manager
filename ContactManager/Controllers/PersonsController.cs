@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using ContactManager.Filters.ActionFilters;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Rotativa.AspNetCore;
 using Rotativa.AspNetCore.Options;
 using ServiceContracts;
@@ -32,6 +33,10 @@ public class PersonsController : Controller
     [Route("[action]")]
     [Route("/")]
     [TypeFilter(typeof(PersonsListActionFilter))]
+    [TypeFilter(typeof(ResponseHeaderActionFilter), Arguments =
+    [
+        "X-Custom-Key", "Custom-Value"
+    ])]
     public async Task<IActionResult> Index(string searchBy, string? searchString,
         string sortBy = nameof(PersonResponse.Name), SortOrderOptions sortOrder = SortOrderOptions.ASC)
     {
@@ -48,6 +53,10 @@ public class PersonsController : Controller
 
     [Route("[action]")]
     [HttpGet]
+    [TypeFilter(typeof(ResponseHeaderActionFilter), Arguments =
+    [
+        "My-Key", "My-Value"
+    ])]
     public async Task<IActionResult> Create()
     {
         List<CountryResponse> countries = await _countriesService.GetAllCountries();
