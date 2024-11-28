@@ -68,7 +68,7 @@ public class PersonsController : Controller
 
     [HttpPost]
     [Route("[action]")]
-    [TypeFilter(typeof(PersonCreateAndEditPostActionFilter), Order = 4)]
+    [TypeFilter(typeof(PersonCreateAndEditPostActionFilter))]
     public async Task<IActionResult> Create(PersonAddRequest personRequest)
     {
         await _personsService.AddPerson(personRequest);
@@ -91,25 +91,16 @@ public class PersonsController : Controller
 
     [HttpPost]
     [Route("[action]/{personId}")]
+    [TypeFilter(typeof(PersonCreateAndEditPostActionFilter))]
     public async Task<IActionResult> Edit(PersonUpdateRequest personRequest)
     {
         PersonResponse? personResponse = await _personsService.GetPersonByPersonId(personRequest.Id);
 
         if (personResponse is null) return RedirectToAction("Index");
-        if (ModelState.IsValid)
-        {
-            await _personsService.UpdatePerson(personRequest);
 
-            return RedirectToAction("Index");
-        }
+        await _personsService.UpdatePerson(personRequest);
 
-        List<CountryResponse> countries = await _countriesService.GetAllCountries();
-
-        ViewBag.Countries = countries.Select(temp =>
-            new SelectListItem() { Text = temp.Name, Value = temp.Id.ToString() });
-        ViewBag.Errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
-
-        return View();
+        return RedirectToAction("Index");
     }
 
     [HttpGet]
