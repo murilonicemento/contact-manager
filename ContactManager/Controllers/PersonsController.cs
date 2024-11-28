@@ -71,17 +71,6 @@ public class PersonsController : Controller
     [TypeFilter(typeof(PersonCreateAndEditPostActionFilter), Order = 4)]
     public async Task<IActionResult> Create(PersonAddRequest personRequest)
     {
-        if (!ModelState.IsValid)
-        {
-            List<CountryResponse> countries = await _countriesService.GetAllCountries();
-
-            ViewBag.Countries = countries.Select(temp =>
-                new SelectListItem() { Text = temp.Name, Value = temp.Id.ToString() });
-            ViewBag.Errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
-
-            return View(personRequest);
-        }
-
         await _personsService.AddPerson(personRequest);
 
         return RedirectToAction("Index", "Persons");
