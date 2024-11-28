@@ -54,7 +54,7 @@ public class PersonsController : Controller
     [TypeFilter(typeof(ResponseHeaderActionFilter), Arguments =
     [
         "My-Key", "My-Value"
-    ])]
+    ], Order = 4)]
     public async Task<IActionResult> Create()
     {
         List<CountryResponse> countries = await _countriesService.GetAllCountries();
@@ -68,7 +68,8 @@ public class PersonsController : Controller
 
     [HttpPost]
     [Route("[action]")]
-    public async Task<IActionResult> Create(PersonAddRequest personAddRequest)
+    [TypeFilter(typeof(PersonCreateAndEditPostActionFilter), Order = 4)]
+    public async Task<IActionResult> Create(PersonAddRequest personRequest)
     {
         if (!ModelState.IsValid)
         {
@@ -78,10 +79,10 @@ public class PersonsController : Controller
                 new SelectListItem() { Text = temp.Name, Value = temp.Id.ToString() });
             ViewBag.Errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
 
-            return View(personAddRequest);
+            return View(personRequest);
         }
 
-        await _personsService.AddPerson(personAddRequest);
+        await _personsService.AddPerson(personRequest);
 
         return RedirectToAction("Index", "Persons");
     }
@@ -101,14 +102,14 @@ public class PersonsController : Controller
 
     [HttpPost]
     [Route("[action]/{personId}")]
-    public async Task<IActionResult> Edit(PersonUpdateRequest personUpdateRequest, Guid personId)
+    public async Task<IActionResult> Edit(PersonUpdateRequest personRequest)
     {
-        PersonResponse? personResponse = await _personsService.GetPersonByPersonId(personUpdateRequest.Id);
+        PersonResponse? personResponse = await _personsService.GetPersonByPersonId(personRequest.Id);
 
         if (personResponse is null) return RedirectToAction("Index");
         if (ModelState.IsValid)
         {
-            await _personsService.UpdatePerson(personUpdateRequest);
+            await _personsService.UpdatePerson(personRequest);
 
             return RedirectToAction("Index");
         }

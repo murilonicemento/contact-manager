@@ -3,20 +3,19 @@ using Microsoft.AspNetCore.Mvc.Filters;
 namespace ContactManager.Filters.ActionFilters;
 
 public class ResponseHeaderActionFilter(ILogger<ResponseHeaderActionFilter> logger, string key, string value, int order)
-    : IActionFilter, IOrderedFilter
+    : IAsyncActionFilter, IOrderedFilter
 {
     public int Order { get; set; } = order;
 
-    public void OnActionExecuting(ActionExecutingContext context)
+    public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
     {
-        logger.LogInformation("{FilterName}.{MethodName} method", nameof(ResponseHeaderActionFilter),
-            nameof(OnActionExecuting));
-    }
+        logger.LogInformation("{FilterName}.{MethodName} method - before", nameof(ResponseHeaderActionFilter),
+            nameof(OnActionExecutionAsync));
 
-    public void OnActionExecuted(ActionExecutedContext context)
-    {
-        logger.LogInformation("{FilterName}.{MethodName} method", nameof(ResponseHeaderActionFilter),
-            nameof(OnActionExecuted));
+        await next();
+
+        logger.LogInformation("{FilterName}.{MethodName} method - after", nameof(ResponseHeaderActionFilter),
+            nameof(OnActionExecutionAsync));
 
         context.HttpContext.Response.Headers[key] = value;
     }
