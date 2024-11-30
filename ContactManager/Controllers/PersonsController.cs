@@ -1,5 +1,6 @@
 using ContactManager.Filters.ActionFilters;
 using ContactManager.Filters.AuthorizationFilter;
+using ContactManager.Filters.ExceptionFilters;
 using ContactManager.Filters.ResourceFilters;
 using ContactManager.Filters.ResultFilters;
 using Microsoft.AspNetCore.Mvc;
@@ -17,6 +18,7 @@ namespace ContactManager.Controllers;
 [
     "My-Key-Controller", "My-Value-Controller", 3
 ], Order = 3)]
+[TypeFilter(typeof(HandleExceptionFilter))]
 public class PersonsController : Controller
 {
     private readonly IPersonsService _personsService;
