@@ -1,4 +1,5 @@
 using ContactManager.Filters.ActionFilters;
+using ContactManager.Filters.ResultFilters;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Rotativa.AspNetCore;
@@ -35,6 +36,7 @@ public class PersonsController : Controller
     [
         "X-Custom-Key", "Custom-Value", 1
     ], Order = 1)]
+    [TypeFilter(typeof(PersonsListResultFilter))]
     public async Task<IActionResult> Index(string searchBy, string? searchString,
         string sortBy = nameof(PersonResponse.Name), SortOrderOptions sortOrder = SortOrderOptions.ASC)
     {
