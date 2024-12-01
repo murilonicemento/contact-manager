@@ -15,7 +15,7 @@ using ServiceContracts.Enums;
 namespace ContactManager.Controllers;
 
 [Route("[controller]")]
-[ResponseHeaderActionFilter("My-Key-Controller", "My-Value-Controller", 3)]
+[ResponseHeaderFilterFactory("My-Key-Controller", "My-Value-Controller", 3)]
 [TypeFilter(typeof(HandleExceptionFilter))]
 [TypeFilter(typeof(PersonsAlwaysRunResultFilter))]
 public class PersonsController : Controller
@@ -35,10 +35,9 @@ public class PersonsController : Controller
     [Route("[action]")]
     [Route("/")]
     [ServiceFilter(typeof(PersonsListActionFilter), Order = 4)]
-    [ResponseHeaderActionFilter("X-Custom-Key", "Custom-Value", 1)]
+    [ResponseHeaderFilterFactory("X-Custom-Key", "Custom-Value", 1)]
     [TypeFilter(typeof(PersonsListResultFilter))]
     [SkipFilter]
-    [ResponseHeaderActionFilter("X-Custom-Key", "Custom-Value", 1)]
     public async Task<IActionResult> Index(string searchBy, string? searchString,
         string sortBy = nameof(PersonResponse.Name), SortOrderOptions sortOrder = SortOrderOptions.ASC)
     {
@@ -55,7 +54,7 @@ public class PersonsController : Controller
 
     [Route("[action]")]
     [HttpGet]
-    [ResponseHeaderActionFilter("My-Key", "My-Value", 4)]
+    [ResponseHeaderFilterFactory("My-Key", "My-Value", 4)]
     public async Task<IActionResult> Create()
     {
         List<CountryResponse> countries = await _countriesService.GetAllCountries();
