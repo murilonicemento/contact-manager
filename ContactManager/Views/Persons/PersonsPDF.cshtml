@@ -4,7 +4,8 @@
     Layout = null;
 }
 
-<link href="@("http://" + Context.Request.Host + "/StyleSheet.css")" rel="stylesheet"/>
+<link href="@("http://" + Context.Request.Host.ToString() + "/Stylesheet.css")" rel="stylesheet" />
+@* http://localhost:port/StyleSheet.css *@
 
 <h1>Persons</h1>
 
@@ -14,10 +15,11 @@
         <th>Person Name</th>
         <th>Email</th>
         <th>Date of Birth</th>
+        <th>Age</th>
         <th>Gender</th>
         <th>Country</th>
         <th>Address</th>
-        <th>Receive News Letter</th>
+        <th>Receive News Letters</th>
     </tr>
     </thead>
     <tbody>
@@ -34,6 +36,6 @@
             <td style="width:20%">@person.ReceiveNewsLetters</td>
         </tr>
     }
-    <tr></tr>
     </tbody>
+
 </table>
