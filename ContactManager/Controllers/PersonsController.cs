@@ -37,7 +37,7 @@ public class PersonsController : Controller
 
     [Route("[action]")]
     [Route("/")]
-    [TypeFilter(typeof(PersonsListActionFilter), Order = 4)]
+    [ServiceFilter(typeof(PersonsListActionFilter), Order = 4)]
     [TypeFilter(typeof(ResponseHeaderActionFilter), Arguments =
     [
         "X-Custom-Key", "Custom-Value", 1

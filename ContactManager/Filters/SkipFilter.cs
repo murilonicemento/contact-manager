@@ -4,5 +4,4 @@ namespace ContactManager.Filters;
 
 public class SkipFilter : Attribute, IFilterMetadata
 {
-    
 }
