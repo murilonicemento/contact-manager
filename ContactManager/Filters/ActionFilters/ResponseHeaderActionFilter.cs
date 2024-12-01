@@ -2,21 +2,23 @@ using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace ContactManager.Filters.ActionFilters;
 
-public class ResponseHeaderActionFilter(ILogger<ResponseHeaderActionFilter> logger, string key, string value, int order)
-    : IAsyncActionFilter, IOrderedFilter
+public class ResponseHeaderActionFilter
+    : ActionFilterAttribute
 {
-    public int Order { get; set; } = order;
+    private readonly string _key;
+    private readonly string _value;
 
-    public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
+    public ResponseHeaderActionFilter(string key, string value, int order)
     {
-        logger.LogInformation("{FilterName}.{MethodName} method - before", nameof(ResponseHeaderActionFilter),
-            nameof(OnActionExecutionAsync));
+        _key = key;
+        _value = value;
+        Order = order;
+    }
 
+    public override async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
+    {
         await next();
 
-        logger.LogInformation("{FilterName}.{MethodName} method - after", nameof(ResponseHeaderActionFilter),
-            nameof(OnActionExecutionAsync));
-
-        context.HttpContext.Response.Headers[key] = value;
+        context.HttpContext.Response.Headers[_key] = _value;
     }
 }

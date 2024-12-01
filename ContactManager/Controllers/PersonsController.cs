@@ -15,10 +15,7 @@ using ServiceContracts.Enums;
 namespace ContactManager.Controllers;
 
 [Route("[controller]")]
-[TypeFilter(typeof(ResponseHeaderActionFilter), Arguments =
-[
-    "My-Key-Controller", "My-Value-Controller", 3
-], Order = 3)]
+[ResponseHeaderActionFilter("My-Key-Controller", "My-Value-Controller", 3)]
 [TypeFilter(typeof(HandleExceptionFilter))]
 [TypeFilter(typeof(PersonsAlwaysRunResultFilter))]
 public class PersonsController : Controller
@@ -38,12 +35,10 @@ public class PersonsController : Controller
     [Route("[action]")]
     [Route("/")]
     [ServiceFilter(typeof(PersonsListActionFilter), Order = 4)]
-    [TypeFilter(typeof(ResponseHeaderActionFilter), Arguments =
-    [
-        "X-Custom-Key", "Custom-Value", 1
-    ], Order = 1)]
+    [ResponseHeaderActionFilter("X-Custom-Key", "Custom-Value", 1)]
     [TypeFilter(typeof(PersonsListResultFilter))]
     [SkipFilter]
+    [ResponseHeaderActionFilter("X-Custom-Key", "Custom-Value", 1)]
     public async Task<IActionResult> Index(string searchBy, string? searchString,
         string sortBy = nameof(PersonResponse.Name), SortOrderOptions sortOrder = SortOrderOptions.ASC)
     {
@@ -60,10 +55,7 @@ public class PersonsController : Controller
 
     [Route("[action]")]
     [HttpGet]
-    [TypeFilter(typeof(ResponseHeaderActionFilter), Arguments =
-    [
-        "My-Key", "My-Value"
-    ], Order = 4)]
+    [ResponseHeaderActionFilter("My-Key", "My-Value", 4)]
     public async Task<IActionResult> Create()
     {
         List<CountryResponse> countries = await _countriesService.GetAllCountries();

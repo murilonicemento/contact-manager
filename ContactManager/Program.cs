@@ -26,10 +26,8 @@ builder.Host.UseSerilog(
 // adds filter globally
 builder.Services.AddControllersWithViews(options =>
 {
-    var logger = builder.Services.BuildServiceProvider().GetRequiredService<ILogger<ResponseHeaderActionFilter>>();
-
     // options.Filters.Add<ResponseHeaderActionFilter>(5);
-    options.Filters.Add(new ResponseHeaderActionFilter(logger, "My-Key-Global", "My-value-Global", 2));
+    options.Filters.Add(new ResponseHeaderActionFilter("My-Key-Global", "My-value-Global", 2));
 });
 
 builder.Services.AddScoped<ICountriesService, CountriesService>();
