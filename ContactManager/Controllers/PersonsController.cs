@@ -1,3 +1,4 @@
+using ContactManager.Filters;
 using ContactManager.Filters.ActionFilters;
 using ContactManager.Filters.AuthorizationFilter;
 using ContactManager.Filters.ExceptionFilters;
@@ -19,6 +20,7 @@ namespace ContactManager.Controllers;
     "My-Key-Controller", "My-Value-Controller", 3
 ], Order = 3)]
 [TypeFilter(typeof(HandleExceptionFilter))]
+[TypeFilter(typeof(PersonsAlwaysRunResultFilter))]
 public class PersonsController : Controller
 {
     private readonly IPersonsService _personsService;
@@ -41,6 +43,7 @@ public class PersonsController : Controller
         "X-Custom-Key", "Custom-Value", 1
     ], Order = 1)]
     [TypeFilter(typeof(PersonsListResultFilter))]
+    [SkipFilter]
     public async Task<IActionResult> Index(string searchBy, string? searchString,
         string sortBy = nameof(PersonResponse.Name), SortOrderOptions sortOrder = SortOrderOptions.ASC)
     {
@@ -101,7 +104,6 @@ public class PersonsController : Controller
     [Route("[action]/{personId}")]
     [TypeFilter(typeof(PersonCreateAndEditPostActionFilter))]
     [TypeFilter(typeof(TokenAuthorizationFilter))]
-    [TypeFilter(typeof(PersonsAlwaysRunResultFilter))]
     public async Task<IActionResult> Edit(PersonUpdateRequest personRequest)
     {
         PersonResponse? personResponse = await _personsService.GetPersonByPersonId(personRequest.Id);
