@@ -1,5 +1,6 @@
 using ContactManager.StartupExtensions;
 using Serilog;
+using ContactManager.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,7 +27,12 @@ if (builder.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
 }
+else
+{
+    app.UseExceptionHandlingMiddleware();
+}
 
+app.UseSerilogRequestLogging();
 app.UseHttpLogging();
 
 if (!builder.Environment.IsEnvironment("Test"))
