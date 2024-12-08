@@ -36,7 +36,9 @@ public class ExceptionHandlingMiddleware
             }
 
             httpContext.Response.StatusCode = 500;
-            await httpContext.Response.WriteAsync("Error ocurred.");
+            await httpContext.Response.WriteAsync("Error occurred.");
+
+            throw;
         }
     }
 }
