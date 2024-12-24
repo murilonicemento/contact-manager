@@ -2,7 +2,6 @@
 
 **Contact Manager**, é um aplicativo web desenvolvido com **ASP.NET Core MVC** para gerenciar contatos. Este projeto foi criado para praticar os conceitos aprendidos com **ASP.NET Core MVC**.
 
----
 
 ## 🛠️ Funcionalidades
 
@@ -13,7 +12,6 @@
 - **Busca por Contatos**: Pesquise contatos rapidamente pelo nome ou outros critérios.
 - **Validação de Dados**: Garantia de inserção de dados consistentes.
 
----
 
 ## 🚀 Tecnologias Utilizadas
 
@@ -22,7 +20,6 @@
 - **SQL Server**: Banco de dados leve para armazenamento local.
 - **Razor Pages**: Para renderização de páginas dinâmicas.
 
----
 
 ## 🔧 Configuração do Ambiente
 
@@ -60,7 +57,6 @@ Siga os passos abaixo para executar o projeto localmente:
 
 5. Acesse no navegador: `http://localhost:5265`
 
----
 
 ## 🤝 Contribuição
 
@@ -72,9 +68,9 @@ Contribuições são bem-vindas! Sinta-se à vontade para abrir issues ou enviar
 4. Envie a branch: `git push origin minha-feature`
 5. Abra um Pull Request
 
----
 
 ## 📝 Licença
 
 Este projeto está licenciado sob a [MIT License](LICENSE).
+
 
